@@ -52,4 +52,11 @@ class RecordCategory extends Model
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
+
+    protected static function booted(): void
+    {
+        static::creating(function(RecordCategory $recordCategory) {
+            $recordCategory->user()->associate(auth()->user());
+        });
+    }
 }

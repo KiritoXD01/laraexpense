@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
+        Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255)->unique();
-            $table->string('type', 100);
-            $table->string('color', 10);
+            $table->string("name", 255)->unique();
+            $table->string("iso", 3)->unique();
+            $table->boolean("is_base_currency")->default(false);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('currencies');
     }
 };

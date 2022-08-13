@@ -3,18 +3,19 @@
 namespace App\Filament\Resources\RecordCategoryResource\Pages;
 
 use App\Filament\Resources\RecordCategoryResource;
-use Filament\Pages\Actions\DeleteAction;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Pages\Actions\CreateAction;
+use Filament\Resources\Pages\ManageRecords;
 
-class EditRecordCategory extends EditRecord
+class ManageRecordCategories extends ManageRecords
 {
     protected static string $resource = RecordCategoryResource::class;
 
     protected function getActions(): array
     {
         return [
-            DeleteAction::make()
-                ->icon('heroicon-o-trash'),
+            CreateAction::make()
+                ->icon("heroicon-o-plus")
+                ->label("Create category"),
         ];
     }
 }

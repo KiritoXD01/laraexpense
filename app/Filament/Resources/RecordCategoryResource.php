@@ -4,8 +4,6 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\RecordCategoryResource\Pages;
 use App\Models\RecordCategory;
-use App\Models\User;
-use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Form;
@@ -16,6 +14,8 @@ use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\BooleanColumn;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 
 class RecordCategoryResource extends Resource
 {
@@ -25,9 +25,9 @@ class RecordCategoryResource extends Resource
 
     protected static ?string $navigationLabel = "Categories";
 
-    protected static function getNavigationBadge(): ?string
+    public static function getEloquentQuery(): Builder
     {
-        return static::getModel()::count();
+        return parent::getEloquentQuery()->whereBelongsTo(auth()->user());
     }
 
     public static function form(Form $form): Form
@@ -35,15 +35,12 @@ class RecordCategoryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true)
-                    ->required(),
-                Select::make('user_id')
                     ->required()
-                    ->options(User::query()->select('id', 'name')->get()->pluck("name", 'id'))
-                    ->searchable(),
+                    ->unique(ignoreRecord: true)
+                    ->maxLength(255)
+                    ->columnSpan("full"),
                 Toggle::make('is_active')
-                    ->label('Active')
+                    ->label("Active")
                     ->default(true)
             ]);
     }
@@ -52,25 +49,27 @@ class RecordCategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('name'),
-                BooleanColumn::make('is_active')
+                TextColumn::make("name"),
+                BooleanColumn::make("is_active")
                     ->label("Active")
             ])
+            ->filters([])
             ->actions([
                 EditAction::make(),
-                DeleteAction::make()
+                DeleteAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make('delete')
+                    ->action(fn (Collection $records) => $records->each->delete())
+                    ->deselectRecordsAfterCompletion()
+                    ->requiresConfirmation(),
             ]);
     }
 
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListRecordCategories::route('/'),
-            'create' => Pages\CreateRecordCategory::route('/create'),
-            'edit' => Pages\EditRecordCategory::route('/{record}/edit'),
+            'index' => Pages\ManageRecordCategories::route('/'),
         ];
     }
 }
