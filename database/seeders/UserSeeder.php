@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\RecordCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -15,10 +16,11 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()
+            ->has(RecordCategory::factory()->count(5))
             ->create([
                 'name' => 'Javier Mercedes',
                 'email' => 'manuelmercedez10@gmail.com',
-                'email_verified_at' => now()
+                'email_verified_at' => now(),
             ]);
     }
 }
