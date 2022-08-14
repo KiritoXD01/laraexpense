@@ -65,4 +65,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(RecordCategory::class, 'user_id', 'id');
     }
+
+    /**
+     * Relation between a user and its currencies saved
+     *
+     * @return HasMany
+     */
+    public function currencies(): HasMany
+    {
+        return $this->hasMany(Currency::class, 'user_id', 'id');
+    }
 }

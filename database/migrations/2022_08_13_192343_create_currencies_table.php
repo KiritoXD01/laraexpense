@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string("name", 255)->unique();
             $table->string("iso", 3)->unique();
             $table->boolean("is_base_currency")->default(false);
+            $table->unsignedBigInteger("user_id");
+            $table->foreign("user_id")->references("id")->on("users");
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
