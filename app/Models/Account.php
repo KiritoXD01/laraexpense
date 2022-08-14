@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\AccountType;
+use App\Enums\AccountTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string $name
  * @property string $color
  * @property string $type
- * @property int    $starting_amount
+ * @property float  $starting_amount
  * @property int    $currency_id
  * @property int    $user_id
  * @property-read string $created_at
@@ -47,7 +47,7 @@ class Account extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'type' => AccountType::class,
+        'type' => AccountTypeEnum::class,
     ];
 
     /**

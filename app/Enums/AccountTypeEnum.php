@@ -4,7 +4,7 @@ namespace App\Enums;
 
 use ArchTech\Enums\Options;
 
-enum AccountType: string
+enum AccountTypeEnum: string
 {
     use Options;
 

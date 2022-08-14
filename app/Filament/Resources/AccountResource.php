@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use Akaunting\Money\Currency;
 use Akaunting\Money\Money;
-use App\Enums\AccountType;
+use App\Enums\AccountTypeEnum;
 use App\Filament\Resources\AccountResource\Pages;
 use App\Models\Account;
 use Filament\Forms\Components\ColorPicker;
@@ -46,7 +46,7 @@ class AccountResource extends Resource
                 Select::make('type')
                     ->required()
                     ->searchable()
-                    ->options(array_flip(AccountType::options()))
+                    ->options(array_flip(AccountTypeEnum::options()))
                     ->columnSpan('full'),
                 TextInput::make('starting_amount')
                     ->required()
