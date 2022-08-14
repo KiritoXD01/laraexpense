@@ -69,4 +69,11 @@ class Account extends Model
     {
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Account $account) {
+            $account->user()->associate(auth()->user());
+        });
+    }
 }
