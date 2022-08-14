@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Currency;
 use App\Models\RecordCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -16,7 +17,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::factory()
-            ->has(RecordCategory::factory()->count(5))
+            ->hasRecordCategories(5)
+            ->hasCurrencies(1)
             ->create([
                 'name' => 'Javier Mercedes',
                 'email' => 'manuelmercedez10@gmail.com',

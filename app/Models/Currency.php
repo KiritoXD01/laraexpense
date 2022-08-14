@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * <p>Class Currency</p>
  * This is the model class for table "currencies"
  *
- * @property int     $id
- * @property string  $iso
- * @property boolean $is_base_currency
- * @property int     $user_id
+ * @property int    $id
+ * @property string $iso
+ * @property bool   $is_base_currency
+ * @property int    $user_id
  * @property-read string $created_at
  * @property-read string $updated_at
  * @property-read string $deleted_at
@@ -30,7 +30,8 @@ class Currency extends Model
      */
     protected $fillable = [
         'iso',
-        'user_id'
+        'is_base_currency',
+        'user_id',
     ];
 
     /**
@@ -54,7 +55,7 @@ class Currency extends Model
 
     protected static function booted(): void
     {
-        static::creating(function(Currency $currency) {
+        static::creating(function (Currency $currency) {
             $currency->user()->associate(auth()->user());
         });
     }

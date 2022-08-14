@@ -14,8 +14,8 @@ class ManageCurrencies extends ManageRecords
     {
         return [
             Actions\CreateAction::make()
-                ->icon("heroicon-o-plus")
-                ->label("Create currency"),
+                ->icon('heroicon-o-plus')
+                ->label('Create currency'),
         ];
     }
 }

@@ -29,7 +29,7 @@ class CurrencyResource extends Resource
     public static function form(Form $form): Form
     {
         $currencies = collect(Money::getISOCurrencies())
-            ->pluck("currency", "alphabeticCode")
+            ->pluck('currency', 'alphabeticCode')
             ->toArray();
 
         return $form
@@ -39,14 +39,14 @@ class CurrencyResource extends Resource
                     ->required()
                     ->options($currencies)
                     ->searchable()
-                    ->columnSpan("full"),
+                    ->columnSpan('full'),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         $currencies = collect(Money::getISOCurrencies())
-            ->pluck("currency", "alphabeticCode")
+            ->pluck('currency', 'alphabeticCode')
             ->toArray();
 
         return $table
@@ -55,7 +55,7 @@ class CurrencyResource extends Resource
                     ->label('Name')
                     ->formatStateUsing(function (string $state) use ($currencies): string {
                         return "$state - $currencies[$state]";
-                    })
+                    }),
             ])
             ->filters([])
             ->actions([

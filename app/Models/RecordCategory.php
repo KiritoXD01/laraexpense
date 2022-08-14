@@ -11,10 +11,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * <p>Class RecordCategory</p>
  * This is the model class for table "record_categories"
  *
- * @property int     $id
- * @property string  $name
- * @property bool $is_active
- * @property int     $user_id
+ * @property int    $id
+ * @property string $name
+ * @property bool   $is_active
+ * @property int    $user_id
  * @property-read string $created_at
  * @property-read string $updated_at
  * @property-read string $deleted_at
@@ -55,7 +55,7 @@ class RecordCategory extends Model
 
     protected static function booted(): void
     {
-        static::creating(function(RecordCategory $recordCategory) {
+        static::creating(function (RecordCategory $recordCategory) {
             $recordCategory->user()->associate(auth()->user());
         });
     }

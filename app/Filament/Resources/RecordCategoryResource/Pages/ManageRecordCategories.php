@@ -14,8 +14,8 @@ class ManageRecordCategories extends ManageRecords
     {
         return [
             CreateAction::make()
-                ->icon("heroicon-o-plus")
-                ->label("Create category"),
+                ->icon('heroicon-o-plus')
+                ->label('Create category'),
         ];
     }
 }

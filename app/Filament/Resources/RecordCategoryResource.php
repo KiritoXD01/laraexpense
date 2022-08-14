@@ -23,7 +23,7 @@ class RecordCategoryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-collection';
 
-    protected static ?string $navigationLabel = "Categories";
+    protected static ?string $navigationLabel = 'Categories';
 
     public static function getEloquentQuery(): Builder
     {
@@ -38,10 +38,10 @@ class RecordCategoryResource extends Resource
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255)
-                    ->columnSpan("full"),
+                    ->columnSpan('full'),
                 Toggle::make('is_active')
-                    ->label("Active")
-                    ->default(true)
+                    ->label('Active')
+                    ->default(true),
             ]);
     }
 
@@ -49,9 +49,9 @@ class RecordCategoryResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make("name"),
-                BooleanColumn::make("is_active")
-                    ->label("Active")
+                TextColumn::make('name'),
+                BooleanColumn::make('is_active')
+                    ->label('Active'),
             ])
             ->filters([])
             ->actions([
