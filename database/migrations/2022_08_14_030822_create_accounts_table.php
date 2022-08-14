@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name', 255)->unique();
             $table->string('color', 10)->nullable();
             $table->string('type', 100);
-            $table->integer('starting_amount')->default(0);
+            $table->decimal('starting_amount')->default(0);
             $table->unsignedBigInteger('currency_id');
             $table->unsignedBigInteger('user_id');
             $table->foreign('currency_id')->references('id')->on('currencies');

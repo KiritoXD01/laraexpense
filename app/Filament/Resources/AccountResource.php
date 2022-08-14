@@ -2,15 +2,19 @@
 
 namespace App\Filament\Resources;
 
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
 use App\Enums\AccountType;
 use App\Filament\Resources\AccountResource\Pages;
 use App\Models\Account;
 use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TextInput\Mask;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
@@ -47,14 +51,18 @@ class AccountResource extends Resource
                 TextInput::make('starting_amount')
                     ->required()
                     ->numeric()
-                    ->default(0),
-                Select::make('currency')
+                    ->minValue(0)
+                    ->default(0.00)
+                    ->mask(fn (Mask $mask) => $mask
+                        ->money()
+                    ),
+                Select::make('currency_id')
                     ->required()
                     ->searchable()
                     ->relationship(
                         'currency',
                         'iso',
-                        fn (Builder $query) => $query->whereBetween(auth()->user())
+                        fn (Builder $query) => $query->whereBelongsTo(auth()->user())
                     )
             ]);
     }
@@ -64,17 +72,25 @@ class AccountResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('color'),
                 TextColumn::make('type')
                     ->formatStateUsing(fn (string $state): string => ucfirst($state))
                     ->sortable(),
-                TextColumn::make('starting_amount'),
+                TextColumn::make('currency.iso'),
+                TextColumn::make('starting_amount')
+                    ->getStateUsing(function ($record): string {
+                        return new Money(
+                            $record->starting_amount,
+                            new Currency($record->currency->iso),
+                            true
+                        );
+                    }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
             ])
             ->actions([
                 EditAction::make(),
+                DeleteAction::make()
             ])
             ->bulkActions([
                 DeleteBulkAction::make('delete')
