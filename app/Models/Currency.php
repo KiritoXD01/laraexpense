@@ -12,7 +12,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * This is the model class for table "currencies"
  *
  * @property int     $id
- * @property string  $name
  * @property string  $iso
  * @property boolean $is_base_currency
  * @property int     $user_id
@@ -30,9 +29,7 @@ class Currency extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'iso',
-        'is_base_currency',
         'user_id'
     ];
 
@@ -53,5 +50,12 @@ class Currency extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function(Currency $currency) {
+            $currency->user()->associate(auth()->user());
+        });
     }
 }

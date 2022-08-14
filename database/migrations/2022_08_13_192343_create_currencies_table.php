@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
-            $table->string("name", 255)->unique();
             $table->string("iso", 3)->unique();
             $table->boolean("is_base_currency")->default(false);
             $table->unsignedBigInteger("user_id");
