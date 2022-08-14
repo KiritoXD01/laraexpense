@@ -15,7 +15,7 @@ class ManageRecordLabels extends ManageRecords
         return [
             CreateAction::make()
                 ->icon('heroicon-o-plus')
-                ->label('Create label')
+                ->label('Create label'),
         ];
     }
 }

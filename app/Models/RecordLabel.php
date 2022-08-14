@@ -33,7 +33,7 @@ class RecordLabel extends Model
         'name',
         'color',
         'assign_to_new_records',
-        'user_id'
+        'user_id',
     ];
 
     /**
@@ -42,7 +42,7 @@ class RecordLabel extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'assign_to_new_records' => 'boolean'
+        'assign_to_new_records' => 'boolean',
     ];
 
     /**

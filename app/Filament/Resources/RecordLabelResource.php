@@ -34,9 +34,9 @@ class RecordLabelResource extends Resource
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
                 ColorPicker::make('color')
-                    ->default("#000000"),
+                    ->default('#000000'),
                 Toggle::make('assign_to_new_records')
-                    ->default(false)
+                    ->default(false),
             ]);
     }
 
@@ -45,7 +45,7 @@ class RecordLabelResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                BooleanColumn::make('assign_to_new_records')
+                BooleanColumn::make('assign_to_new_records'),
             ])
             ->actions([
                 EditAction::make(),

@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('name', 255)->unique();
             $table->string('color')->nullable();
             $table->boolean('assign_to_new_records')->default(false);
-            $table->unsignedBigInteger("user_id");
-            $table->foreign("user_id")->references("id")->on("users");
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

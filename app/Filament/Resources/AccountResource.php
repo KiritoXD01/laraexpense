@@ -42,12 +42,12 @@ class AccountResource extends Resource
                     ->unique(ignoreRecord: true),
                 ColorPicker::make('color')
                     ->required()
-                    ->default("#000000"),
+                    ->default('#000000'),
                 Select::make('type')
                     ->required()
                     ->searchable()
                     ->options(array_flip(AccountType::options()))
-                    ->columnSpan("full"),
+                    ->columnSpan('full'),
                 TextInput::make('starting_amount')
                     ->required()
                     ->numeric()
@@ -63,7 +63,7 @@ class AccountResource extends Resource
                         'currency',
                         'iso',
                         fn (Builder $query) => $query->whereBelongsTo(auth()->user())
-                    )
+                    ),
             ]);
     }
 
@@ -90,7 +90,7 @@ class AccountResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
-                DeleteAction::make()
+                DeleteAction::make(),
             ])
             ->bulkActions([
                 DeleteBulkAction::make('delete')

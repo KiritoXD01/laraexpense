@@ -5,7 +5,6 @@ namespace App\Filament\Resources\AccountResource\Pages;
 use App\Filament\Resources\AccountResource;
 use Filament\Pages\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
-use Illuminate\Database\Eloquent\Builder;
 
 class ListAccounts extends ListRecords
 {
@@ -15,7 +14,7 @@ class ListAccounts extends ListRecords
     {
         return [
             CreateAction::make()
-                ->label("Create account")
+                ->label('Create account')
                 ->icon('heroicon-o-plus'),
         ];
     }
