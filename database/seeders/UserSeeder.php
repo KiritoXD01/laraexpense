@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Currency;
-use App\Models\RecordCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 

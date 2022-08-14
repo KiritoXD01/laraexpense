@@ -75,4 +75,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Currency::class, 'user_id', 'id');
     }
+
+    /**
+     * Relation between a user and its accounts created
+     *
+     * @return HasMany
+     */
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(Account::class, 'user_id', 'id');
+    }
 }

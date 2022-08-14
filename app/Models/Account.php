@@ -2,25 +2,28 @@
 
 namespace App\Models;
 
+use App\Enums\AccountType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * <p>Class Currency</p>
- * This is the model class for table "currencies"
+ * <p>Class Account</p>
+ * This is the model class for table "accounts"
  *
  * @property int    $id
- * @property string $iso
- * @property bool   $is_base_currency
+ * @property string $name
+ * @property string $color
+ * @property string $type
+ * @property int    $starting_amount
+ * @property int    $currency_id
  * @property int    $user_id
  * @property-read string $created_at
  * @property-read string $updated_at
  * @property-read string $deleted_at
  */
-class Currency extends Model
+class Account extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -30,8 +33,11 @@ class Currency extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'iso',
-        'is_base_currency',
+        'name',
+        'color',
+        'type',
+        'starting_amount',
+        'currency_id',
         'user_id',
     ];
 
@@ -41,11 +47,11 @@ class Currency extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'is_base_currency' => 'boolean',
+        'type' => AccountType::class,
     ];
 
     /**
-     * Relation between a user and its currencies saved
+     * Relation between an account and its user
      *
      * @return BelongsTo
      */
@@ -55,19 +61,12 @@ class Currency extends Model
     }
 
     /**
-     * Relation between a currency and its accounts
+     * Relation between an account and its currency
      *
-     * @return HasMany
+     * @return BelongsTo
      */
-    public function accounts(): HasMany
+    public function currency(): BelongsTo
     {
-        return $this->hasMany(Account::class, 'currency_id', 'id');
-    }
-
-    protected static function booted(): void
-    {
-        static::creating(function (Currency $currency) {
-            $currency->user()->associate(auth()->user());
-        });
+        return $this->belongsTo(Currency::class, 'currency_id', 'id');
     }
 }
