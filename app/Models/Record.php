@@ -36,6 +36,7 @@ class Record extends Model
         'amount',
         'currency_id',
         'paid_at',
+        'record_category_id',
     ];
 
     /**
@@ -65,5 +66,13 @@ class Record extends Model
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id', 'id');
+    }
+
+    /**
+     * Relation between a record and its category
+     */
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(RecordCategory::class, 'record_category_id', 'id');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -51,6 +52,14 @@ class RecordCategory extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Relation between a record and its category
+     */
+    public function records(): HasMany
+    {
+        return $this->hasMany(Record::class, 'record_category_id', 'id');
     }
 
     protected static function booted(): void

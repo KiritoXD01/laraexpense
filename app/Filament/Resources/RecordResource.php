@@ -48,6 +48,10 @@ class RecordResource extends Resource
                     ->required()
                     ->searchable()
                     ->relationship('currency', 'iso'),
+                Select::make('record_category_id')
+                    ->required()
+                    ->searchable()
+                    ->relationship('category', 'name'),
                 DateTimePicker::make('paid_at')
                     ->default(now())
                     ->required(),
@@ -70,7 +74,9 @@ class RecordResource extends Resource
                             true
                         );
                     }),
-
+                TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->actions([
                 EditAction::make(),

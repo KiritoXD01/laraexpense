@@ -2,8 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use Akaunting\Money\Currency;
-use Akaunting\Money\Money;
 use App\Enums\AccountTypeEnum;
 use App\Filament\Resources\AccountResource\Pages;
 use App\Models\Account;
@@ -26,15 +24,6 @@ class AccountResource extends Resource
     protected static ?string $model = Account::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-credit-card';
-
-    public static function getEloquentQuery(): Builder
-    {
-        return Account::query()
-            ->whereBelongsTo(auth()->user())
-            ->with(['currency', 'user'])
-            ->get()
-            ->toQuery();
-    }
 
     public static function form(Form $form): Form
     {
