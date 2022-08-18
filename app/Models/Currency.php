@@ -64,6 +64,16 @@ class Currency extends Model
         return $this->hasMany(Account::class, 'currency_id', 'id');
     }
 
+    /**
+     * Relation between a currency and its records
+     *
+     * @return HasMany
+     */
+    public function records(): HasMany
+    {
+        return $this->hasMany(Record::class, "currency_id", "id");
+    }
+
     protected static function booted(): void
     {
         static::creating(function (Currency $currency) {

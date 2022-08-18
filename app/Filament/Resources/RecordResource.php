@@ -2,15 +2,21 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\RecordTypeEnum;
 use App\Filament\Resources\RecordResource\Pages;
 use App\Models\Record;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TextInput\Mask;
 use Filament\Resources\Form;
 use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Database\Eloquent\Collection;
 
 class RecordResource extends Resource
 {
@@ -25,7 +31,24 @@ class RecordResource extends Resource
                 Select::make('type')
                     ->required()
                     ->searchable()
-                    ->options()
+                    ->options(array_flip(RecordTypeEnum::options())),
+                Select::make('account_id')
+                    ->required()
+                    ->searchable()
+                    ->relationship("account", "name"),
+                TextInput::make('amount')
+                    ->required()
+                    ->numeric()
+                    ->minValue(0)
+                    ->default(0.00)
+                    ->mask(fn (Mask $mask) => $mask->money()),
+                Select::make('currency_id')
+                    ->required()
+                    ->searchable()
+                    ->relationship('currency', 'iso'),
+                DateTimePicker::make('paid_at')
+                    ->default(now())
+                    ->required()
             ]);
     }
 
@@ -33,14 +56,20 @@ class RecordResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('type')
+                    ->formatStateUsing(fn (string $state): string => ucfirst($state)),
+                TextColumn::make('account.name'),
+                TextColumn::make('amount')
             ])
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make('delete')
+                    ->action(fn (Collection $records) => $records->each->delete())
+                    ->deselectRecordsAfterCompletion()
+                    ->requiresConfirmation(),
             ]);
     }
 

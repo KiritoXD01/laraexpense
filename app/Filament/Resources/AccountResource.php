@@ -53,9 +53,7 @@ class AccountResource extends Resource
                     ->numeric()
                     ->minValue(0)
                     ->default(0.00)
-                    ->mask(fn (Mask $mask) => $mask
-                        ->money()
-                    ),
+                    ->mask(fn (Mask $mask) => $mask->money()),
                 Select::make('currency_id')
                     ->required()
                     ->searchable()
@@ -77,7 +75,7 @@ class AccountResource extends Resource
                     ->sortable(),
                 TextColumn::make('currency.iso'),
                 TextColumn::make('starting_amount')
-                    ->getStateUsing(function ($record): string {
+                    ->getStateUsing(function (Account $record): string {
                         return new Money(
                             $record->starting_amount,
                             new Currency($record->currency->iso),
