@@ -8,7 +8,7 @@ enum RecordTypeEnum: string
 {
     use Options;
 
-    case EXPENSE = "expense";
+    case EXPENSE = 'expense';
     case INCOME = 'income';
     case TRANSFER = 'transfer';
 }

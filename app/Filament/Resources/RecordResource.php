@@ -37,7 +37,7 @@ class RecordResource extends Resource
                 Select::make('account_id')
                     ->required()
                     ->searchable()
-                    ->relationship("account", "name"),
+                    ->relationship('account', 'name'),
                 TextInput::make('amount')
                     ->required()
                     ->numeric()
@@ -50,7 +50,7 @@ class RecordResource extends Resource
                     ->relationship('currency', 'iso'),
                 DateTimePicker::make('paid_at')
                     ->default(now())
-                    ->required()
+                    ->required(),
             ]);
     }
 
@@ -63,7 +63,7 @@ class RecordResource extends Resource
                     ->formatStateUsing(fn (string $state): string => ucfirst($state)),
                 TextColumn::make('currency.iso'),
                 TextColumn::make('amount')
-                    ->getStateUsing(function(Record $record): string {
+                    ->getStateUsing(function (Record $record): string {
                         return new Money(
                             $record->amount,
                             new Currency($record->currency->iso),

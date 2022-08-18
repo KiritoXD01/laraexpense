@@ -35,7 +35,7 @@ class Record extends Model
         'account_id',
         'amount',
         'currency_id',
-        'paid_at'
+        'paid_at',
     ];
 
     /**
@@ -46,7 +46,7 @@ class Record extends Model
     protected $casts = [
         'type' => RecordTypeEnum::class,
         'paid_at' => 'datetime',
-        'amount' => 'float'
+        'amount' => 'float',
     ];
 
     /**

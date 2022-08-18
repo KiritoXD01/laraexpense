@@ -71,7 +71,7 @@ class Currency extends Model
      */
     public function records(): HasMany
     {
-        return $this->hasMany(Record::class, "currency_id", "id");
+        return $this->hasMany(Record::class, 'currency_id', 'id');
     }
 
     protected static function booted(): void

@@ -29,7 +29,11 @@ class AccountResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()->with('currency')->whereBelongsTo(auth()->user());
+        return Account::query()
+            ->whereBelongsTo(auth()->user())
+            ->with(['currency', 'user'])
+            ->get()
+            ->toQuery();
     }
 
     public static function form(Form $form): Form
@@ -73,15 +77,6 @@ class AccountResource extends Resource
                 TextColumn::make('type')
                     ->formatStateUsing(fn (string $state): string => ucfirst($state))
                     ->sortable(),
-                TextColumn::make('currency.iso'),
-                TextColumn::make('starting_amount')
-                    ->getStateUsing(function (Account $account): string {
-                        return new Money(
-                            $account->starting_amount,
-                            new Currency($account->currency->iso),
-                            true
-                        );
-                    }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable(),
