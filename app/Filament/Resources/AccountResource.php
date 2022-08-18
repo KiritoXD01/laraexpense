@@ -75,10 +75,10 @@ class AccountResource extends Resource
                     ->sortable(),
                 TextColumn::make('currency.iso'),
                 TextColumn::make('starting_amount')
-                    ->getStateUsing(function (Account $record): string {
+                    ->getStateUsing(function (Account $account): string {
                         return new Money(
-                            $record->starting_amount,
-                            new Currency($record->currency->iso),
+                            $account->starting_amount,
+                            new Currency($account->currency->iso),
                             true
                         );
                     }),

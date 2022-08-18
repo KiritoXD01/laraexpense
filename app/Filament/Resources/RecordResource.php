@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources;
 
+use Akaunting\Money\Currency;
+use Akaunting\Money\Money;
 use App\Enums\RecordTypeEnum;
 use App\Filament\Resources\RecordResource\Pages;
 use App\Models\Record;
@@ -56,10 +58,19 @@ class RecordResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('account.name'),
                 TextColumn::make('type')
                     ->formatStateUsing(fn (string $state): string => ucfirst($state)),
-                TextColumn::make('account.name'),
+                TextColumn::make('currency.iso'),
                 TextColumn::make('amount')
+                    ->getStateUsing(function(Record $record): string {
+                        return new Money(
+                            $record->amount,
+                            new Currency($record->currency->iso),
+                            true
+                        );
+                    }),
+
             ])
             ->actions([
                 EditAction::make(),
